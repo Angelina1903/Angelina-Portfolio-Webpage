@@ -44,7 +44,7 @@ const PROJECTS = [
 ];
 
 const SKILLS = [
-  { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "C++", "Java", "C#"] },
+  { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "C++", "Java", "C#", "Lua"] },
   { group: "Web & App", items: ["React", "Next.js", "Tailwind", "Node.js", "React Native"] },
   { group: "Game", items: ["Unity", "Cinemachine", "Shader Graph"] },
   { group: "Data & Infra", items: ["SQLite", "MongoDB", "PostgreSQL", "REST", "Git/GitHub", "Vercel"] },
@@ -200,7 +200,7 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Skills */}
       <section id="skills" className="py-16 sm:py-24">
         <div className={`${CONTAINER}`}>
