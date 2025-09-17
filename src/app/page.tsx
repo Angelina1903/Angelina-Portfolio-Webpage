@@ -1,5 +1,6 @@
 'use client'; // ← 页面是客户端组件就保留
 import React from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Mail, Github, Linkedin, ExternalLink, ArrowRight, FileText } from "lucide-react";
 
@@ -116,7 +117,7 @@ function TypewriterWords({
 
   React.useEffect(() => {
     const current = words[index % words.length];
-    let t: any;
+    let t: ReturnType<typeof setTimeout> | null = null;
 
 
     if (phase === "typing") {
@@ -135,7 +136,7 @@ function TypewriterWords({
     } else if (phase === "pausing") {
       t = setTimeout(() => setPhase("deleting"), pauseTime);
     }
-    return () => clearTimeout(t);
+    return () => { if (t) clearTimeout(t); }
   }, [sub, phase, index, words, typingSpeed, deletingSpeed, pauseTime]);
 
 
@@ -185,7 +186,6 @@ export default function PortfolioPage() {
               {SITE.name}
             </h1>
             <p className="mt-3 text-lg text-slate-600 dark:text-slate-300">
-              <span className="font-semibold"></span>
               <TypewriterWords />
             </p>
             <p className="mt-2 text-slate-600/90 dark:text-slate-300/90">
@@ -215,11 +215,14 @@ export default function PortfolioPage() {
             className="relative aspect-video md:aspect-square rounded-3xl overflow-hidden shadow-xl"
           >
             {/* Replace with your portrait or 3D canvas */}
-            <img
+            <Image
               alt="Hero"
               src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop"
-              className="h-full w-full object-cover"
-            />
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+              priority
+ />
             <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent" />
           </motion.div>
         </div>
@@ -250,7 +253,13 @@ export default function PortfolioPage() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
                 <div className="aspect-video overflow-hidden">
-                  <img src={p.img} alt={p.title} className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform" />
+                  <Image
+                    src={p.img}
+                    alt={p.title}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover group-hover:scale-[1.03] transition-transform"
+                  />
                 </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -280,7 +289,7 @@ export default function PortfolioPage() {
             {SKILLS.map((g, i) => (
               <motion.div
                 key={g.group}
-                className="rounded-2xl ..."
+                className="rounded-2xl border border-slate-200 dark:border-slate-700 p-5 bg-white/70 dark:bg-slate-900/50"
                 variants={itemFade}
                 initial="hidden"
                 whileInView="show"
@@ -307,7 +316,7 @@ export default function PortfolioPage() {
         <div className={CONTAINER}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Experience</h2>
           <ol className="mt-8 relative border-s-l border-slate-200 dark:border-slate-700">
-            + {EXPERIENCE.map((e, i) => (
+             {EXPERIENCE.map((e, i) => (
               <motion.li
                 key={e.title}
                 className="ms-5 pb-8"
