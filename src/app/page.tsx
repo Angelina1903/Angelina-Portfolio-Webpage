@@ -9,14 +9,14 @@ import { Mail, Github, Linkedin, ExternalLink, ArrowRight, FileText } from "luci
 // Edit the constants below to personalize.
 
 const SITE = {
-  name: "Delin (Angelina) Liang",
+  name: 'Delin "Angelina" Liang',
   headline: "Software Engineer & Game Dev",
   tagline:
-    "I build delightful web experiences and ship reliable features. Previously at HaoPlay USA.",
+    "Graduated from University of Southern California with a B.S. in CS(Games) and M.S. in Computer Science. I create delightful web experiences and ship reliable features. I seek to build impactful software. My core skills includes C++, C#, Python, JavaScript/TypeScript, React,Unity, and more.",
   email: "angelinaliang1903@gmail.com",
   github: "https://github.com/Angelina1903",
   linkedin: "https://www.linkedin.com/in/delin-liang-85283b209/",
-  resumeUrl: "#", // link to your PDF resume
+  resumeUrl: "https://drive.google.com/file/d/1S6cSAUIOTyPkkHs9ftfKedZCNUleQQii/view?usp=sharing", // link to your PDF resume
 };
 
 const PROJECTS = [
@@ -83,6 +83,71 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+const itemFade = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
+// Words to cycle in the headline typewriter
+const HEADLINE_WORDS = [
+  "A USC CS Games Undergrad",
+  "A USC CS Grad",
+  "A Software Engineer",
+  "A Game Developer",
+  "An Artist",
+];
+
+
+function TypewriterWords({
+  words = HEADLINE_WORDS,
+  typingSpeed = 45, // ms per char when typing
+  deletingSpeed = 28, // ms per char when deleting
+  pauseTime = 900, // ms pause at full word
+}: {
+  words?: string[];
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  pauseTime?: number;
+}) {
+  const [index, setIndex] = React.useState(0);
+  const [sub, setSub] = React.useState("");
+  const [phase, setPhase] = React.useState<"typing" | "pausing" | "deleting">("typing");
+
+
+  React.useEffect(() => {
+    const current = words[index % words.length];
+    let t: any;
+
+
+    if (phase === "typing") {
+      if (sub.length < current.length) {
+        t = setTimeout(() => setSub(current.slice(0, sub.length + 1)), typingSpeed);
+      } else {
+        setPhase("pausing");
+      }
+    } else if (phase === "deleting") {
+      if (sub.length > 0) {
+        t = setTimeout(() => setSub(current.slice(0, sub.length - 1)), deletingSpeed);
+      } else {
+        setIndex((i) => (i + 1) % words.length);
+        setPhase("typing");
+      }
+    } else if (phase === "pausing") {
+      t = setTimeout(() => setPhase("deleting"), pauseTime);
+    }
+    return () => clearTimeout(t);
+  }, [sub, phase, index, words, typingSpeed, deletingSpeed, pauseTime]);
+
+
+  // caret blink using CSS
+  return (
+    <span className="font-semibold">
+      <span aria-live="polite" aria-atomic className="align-baseline">{sub}</span>
+      <span className="inline-block w-[0.55ch] -mb-[2px] animate-pulse">|</span>
+    </span>
+  );
+}
+
 export default function PortfolioPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-white via-white to-slate-50 text-slate-900 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900 dark:text-slate-100">
@@ -119,23 +184,29 @@ export default function PortfolioPage() {
             <h1 className="mt-2 text-4xl/tight sm:text-5xl/tight font-bold tracking-tight">
               {SITE.name}
             </h1>
-            <p className="mt-3 text-lg text-slate-600 dark:text-slate-300">{SITE.headline}</p>
-            <p className="mt-2 text-slate-600/90 dark:text-slate-300/90">{SITE.tagline}</p>
+            <p className="mt-3 text-lg text-slate-600 dark:text-slate-300">
+              <span className="font-semibold"></span>
+              <TypewriterWords />
+            </p>
+            <p className="mt-2 text-slate-600/90 dark:text-slate-300/90">
+              Graduated from <span className="font-semibold">University of Southern California</span> with a <span className="font-semibold">B.S.</span> in <span className="font-semibold">CS(Games)</span> and <span className="font-semibold">M.S.</span> in <span className="font-semibold">Computer Science</span>. I create delightful web experiences and ship reliable features. I seek to build impactful software. My core skills include <span className="font-bold">C++</span>, <span className="font-bold">C#</span>, <span className="font-bold">Python</span>, <span className="font-bold">JavaScript/TypeScript</span>, <span className="font-bold">React</span>, <span className="font-bold">Unity</span>, and more.
+            </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
-                View Work <ArrowRight className="h-4 w-4" />
+                View Projects <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href="#contact"
+                href={`mailto:${SITE.email}`}
                 className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-black text-white dark:bg-white dark:text-black hover:opacity-90"
               >
                 Contact <Mail className="h-4 w-4" />
               </a>
             </div>
           </motion.div>
+
 
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -155,7 +226,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="py-12 sm:py-20 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="projects" className="scroll-mt-20/28 py-12 sm:py-20 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={`${CONTAINER}`}>
           <motion.h2
             initial="hidden"
@@ -202,12 +273,20 @@ export default function PortfolioPage() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="py-16 sm:py-24">
+      <section id="skills" className="scroll-mt-20/28 py-16 sm:py-24">
         <div className={`${CONTAINER}`}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Skills</h2>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
-            {SKILLS.map((g) => (
-              <div key={g.group} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-5 bg-white/70 dark:bg-slate-900/50">
+            {SKILLS.map((g, i) => (
+              <motion.div
+                key={g.group}
+                className="rounded-2xl ..."
+                variants={itemFade}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: i * 0.05 }}
+              >
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{g.group}</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {g.items.map((s) => (
@@ -216,7 +295,7 @@ export default function PortfolioPage() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -224,12 +303,20 @@ export default function PortfolioPage() {
 
 
       {/* Experience (Education + Work) */}
-      <section id="experience" className="py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="experience" className="scroll-mt-20/28 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={CONTAINER}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Experience</h2>
           <ol className="mt-8 relative border-s-l border-slate-200 dark:border-slate-700">
-            {EXPERIENCE.map((e) => (
-              <li key={e.title} className="ms-5 pb-8">
+            + {EXPERIENCE.map((e, i) => (
+              <motion.li
+                key={e.title}
+                className="ms-5 pb-8"
+                variants={itemFade}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: i * 0.05 }}
+              >
                 <span className="absolute -start-1.5 mt-1 h-3 w-3 rounded-full bg-slate-400 dark:bg-slate-500" />
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="font-medium">{e.title}</h3>
@@ -240,14 +327,14 @@ export default function PortfolioPage() {
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
-              </li>
+              </motion.li>
             ))}
           </ol>
         </div>
       </section>
 
       {/* About */}
-      <section id="about" className="py-16 sm:py-24">
+      <section id="about" className="scroll-mt-20/28 py-16 sm:py-24">
         <div className={`${CONTAINER} grid gap-8 md:grid-cols-3`}>
           <div className="md:col-span-1">
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">About</h2>
@@ -265,7 +352,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="contact" className="scroll-mt-20/28 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={CONTAINER}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Get in touch</h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
