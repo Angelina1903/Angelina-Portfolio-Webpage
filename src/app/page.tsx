@@ -229,7 +229,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="scroll-mt-20/28 py-12 sm:py-20 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="projects" className="scroll-mt-16 py-12 sm:py-20 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={`${CONTAINER}`}>
           <motion.h2
             initial="hidden"
@@ -252,7 +252,7 @@ export default function PortfolioPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
-                <div className="aspect-video overflow-hidden">
+                <div className="relative aspect-video overflow-hidden">
                   <Image
                     src={p.img}
                     alt={p.title}
@@ -282,7 +282,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="scroll-mt-20/28 py-16 sm:py-24">
+      <section id="skills" className="scroll-mt-16 py-16 sm:py-24">
         <div className={`${CONTAINER}`}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Skills</h2>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
@@ -312,7 +312,7 @@ export default function PortfolioPage() {
 
 
       {/* Experience (Education + Work) */}
-      <section id="experience" className="scroll-mt-20/28 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="experience" className="scroll-mt-16 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={CONTAINER}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Experience</h2>
           <ol className="mt-8 relative border-s-l border-slate-200 dark:border-slate-700">
@@ -343,7 +343,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* About */}
-      <section id="about" className="scroll-mt-20/28 py-16 sm:py-24">
+      <section id="about" className="scroll-mt-16 py-16 sm:py-24">
         <div className={`${CONTAINER} grid gap-8 md:grid-cols-3`}>
           <div className="md:col-span-1">
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">About</h2>
@@ -361,7 +361,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="scroll-mt-20/28 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
+      <section id="contact" className="scroll-mt-16 py-16 sm:py-24 bg-slate-50/60 dark:bg-slate-900/40">
         <div className={CONTAINER}>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Get in touch</h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
